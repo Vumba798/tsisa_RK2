@@ -14,13 +14,15 @@ double calculate_avg(const std::vector<Person>& vec);
 std::vector<Person> crossing_over(const std::vector<Person> &vec);
 void mutation(std::vector<Person> &crossOver);
 
+/*
 void choose_best_persons(std::vector<Person> &population,
     std::vector<Person> &newPopulation) {
     for (size_t i = 0; i < 4; ++i) {
         population[i] = newPopulation[i];
     }
 }
+ */
 
-void print(const std::vector<Person> &population);
+void print(const size_t &N, const std::vector<Person> &population);
 
 void genetic_algorithm(size_t N);

@@ -65,6 +65,7 @@ std::vector<Person> crossing_over(const std::vector<Person> &vec) {
         // Insert the best inidividuum
         insert(crossOver, Person(tmp.front().x, tmp.front().y));
     }
+    return crossOver;
 }
 
 void mutation(std::vector<Person> &crossOver) {
@@ -95,4 +96,24 @@ void print(const size_t& N, const std::vector<Person> &population) {
             setw(10) << population[i].y << setw(10) << population[i].value;
     }
     cout << endl << "=====================================" << endl;
+}
+
+void genetic_algorithm(size_t N) {
+    size_t iteration = 0;
+    std::vector<Person> population;
+    for (size_t i = -1; i < 4; ++i) {
+        insert(population, Person(static_cast<double>(std::rand())/
+                                  static_cast<double>(RAND_MAX/3) - 2,
+                                  static_cast<double>(std::rand())/
+                                  static_cast<double>(RAND_MAX/3) - 2));
+    }
+    while (iteration < N) {
+       auto crossOver = crossing_over(population);
+       mutation(crossOver);
+       for (size_t i = 0; i < 4; ++i) {
+           population[i] = crossOver[i];
+       }
+       cout << "=========================================" << endl;
+       print(iteration, population);
+    }
 }
