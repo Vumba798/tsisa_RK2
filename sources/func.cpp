@@ -54,32 +54,32 @@ double calculate_avg(const std::vector<Person>& vec) {
 std::vector<Person> crossing_over(const std::vector<Person> &vec) {
     std::vector<Person> crossOver;
     for (size_t i = 0; i < vec.size() - 1; ++i) {
-        std::vector<Person> tmp;
         for (size_t j = i + 1; j < vec.size(); ++j) {
             // Sorted insert
-            insert(tmp, Person(vec[i].x, vec[j].x));
-            insert(tmp, Person(vec[i].x, vec[j].y));
-            insert(tmp, Person(vec[i].y, vec[j].x));
-            insert(tmp, Person(vec[i].y, vec[j].x));
+            insert(crossOver, Person(vec[i].x, vec[j].x));
+            insert(crossOver, Person(vec[i].x, vec[j].y));
+            insert(crossOver, Person(vec[i].y, vec[j].x));
+            insert(crossOver, Person(vec[i].y, vec[j].y));
         }
-
-        // Insert the best inidividuum
-        insert(crossOver, Person(tmp.front().x, tmp.front().y));
     }
     return crossOver;
+    //cout << "CROSS OVER" << endl;
+    //print(1,crossOver); return crossOver;
 }
 
 void mutation(std::vector<Person> &crossOver) {
     for (size_t i = 0; i < crossOver.size(); ++i) {
         // Percent of mutation is 40%
         if (std::rand() % 10000 > 4000) {
-            // we will change only one coordinate
-            double tmpRandCoordinate = static_cast<double>(std::rand())/
-                                       static_cast<double>(RAND_MAX / 4) - 2;
+
             if (std::rand() % 10000 > 5000) {
-                crossOver[i].x = tmpRandCoordinate;
+                //crossOver[i].x = fmod(crossOver[i].x, 4) - 2;
+                crossOver[i].x = static_cast<double>(rand())/
+                                 static_cast<double>(RAND_MAX / 4) - 2;
             }else{
-                crossOver[i].y = tmpRandCoordinate;
+                //crossOver[i].y = fmod(crossOver[i].y, 4) - 2;
+                crossOver[i].y = static_cast<double>(rand())/
+                        static_cast<double>(RAND_MAX / 4) - 2;
             }
             crossOver[i].value = func(crossOver[i].x, crossOver[i].y);
         }
@@ -87,15 +87,19 @@ void mutation(std::vector<Person> &crossOver) {
     std::sort(crossOver.begin(), crossOver.end(), [](Person& left, Person& right){
         return left.value > right.value;
     });
+    //cout << "MUTATION" << endl;
+    //print(1, crossOver);
 }
 
 void print(const size_t& N, const std::vector<Person> &population) {
-    cout << setw(5) << N << endl;
-    for (size_t i = 0; i < 4; ++i) {
+    cout << "Iteration " << N << endl;
+    for (size_t i = 0; i < population.size(); ++i) {
         cout << endl;
         cout << setw(5) << i+1 << setw(18) << population[i].x <<
             setw(18) << population[i].y << setw(18) << population[i].value;
     }
+    cout << "\n\tMAX: " << population[0].value <<
+        "\t\tAVG: " << calculate_avg(population) << endl;
     cout << endl << "=====================================" << endl;
 }
 
@@ -109,13 +113,13 @@ void genetic_algorithm(size_t N) {
                                   static_cast<double>(RAND_MAX/4) - 2));
     }
     while (iteration < N) {
+       print(iteration, population);
        auto crossOver = crossing_over(population);
        mutation(crossOver);
        for (size_t i = 0; i < 4; ++i) {
            population[i] = crossOver[i];
        }
-       cout << "=========================================" << endl;
-       print(iteration, population);
        ++iteration;
     }
+    print(N, population);
 }
