@@ -91,9 +91,9 @@ void mutation(std::vector<Person> &crossOver) {
 void print(const size_t& N, const std::vector<Person> &population) {
     cout << setw(5) << N << endl;
     for (size_t i = 0; i < 4; ++i) {
-        cout << "-----------------------------------------------" << endl;
-        cout << setw(5) << i+1 << setw(10) << population[i].x <<
-            setw(10) << population[i].y << setw(10) << population[i].value;
+        cout << endl;
+        cout << setw(5) << i+1 << setw(18) << population[i].x <<
+            setw(18) << population[i].y << setw(18) << population[i].value;
     }
     cout << endl << "=====================================" << endl;
 }
@@ -101,7 +101,7 @@ void print(const size_t& N, const std::vector<Person> &population) {
 void genetic_algorithm(size_t N) {
     size_t iteration = 0;
     std::vector<Person> population;
-    for (size_t i = -1; i < 4; ++i) {
+    for (size_t i = 0; i < 4; ++i) {
         insert(population, Person(static_cast<double>(std::rand())/
                                   static_cast<double>(RAND_MAX/3) - 2,
                                   static_cast<double>(std::rand())/
@@ -115,5 +115,6 @@ void genetic_algorithm(size_t N) {
        }
        cout << "=========================================" << endl;
        print(iteration, population);
+       ++iteration;
     }
 }
