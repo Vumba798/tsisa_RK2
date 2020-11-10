@@ -17,7 +17,7 @@ Person::Person(const double& val1, const double &val2) {
 }
 
 bool operator>(const Person& left, const Person& right) {
-    return left.value < right.value;
+    return left.value > right.value;
 }
 
 void insert(std::vector<Person> &vec, Person &&p) {
@@ -62,6 +62,7 @@ std::vector<Person> crossing_over(const std::vector<Person> &vec) {
             insert(tmp, Person(vec[i].y, vec[j].x));
             insert(tmp, Person(vec[i].y, vec[j].x));
         }
+
         // Insert the best inidividuum
         insert(crossOver, Person(tmp.front().x, tmp.front().y));
     }
@@ -74,7 +75,7 @@ void mutation(std::vector<Person> &crossOver) {
         if (std::rand() % 10000 > 4000) {
             // we will change only one coordinate
             double tmpRandCoordinate = static_cast<double>(std::rand())/
-                                       static_cast<double>(RAND_MAX % 4) - 2;
+                                       static_cast<double>(RAND_MAX / 4) - 2;
             if (std::rand() % 10000 > 5000) {
                 crossOver[i].x = tmpRandCoordinate;
             }else{
@@ -103,9 +104,9 @@ void genetic_algorithm(size_t N) {
     std::vector<Person> population;
     for (size_t i = 0; i < 4; ++i) {
         insert(population, Person(static_cast<double>(std::rand())/
-                                  static_cast<double>(RAND_MAX/3) - 2,
+                                  static_cast<double>(RAND_MAX/4) - 2,
                                   static_cast<double>(std::rand())/
-                                  static_cast<double>(RAND_MAX/3) - 2));
+                                  static_cast<double>(RAND_MAX/4) - 2));
     }
     while (iteration < N) {
        auto crossOver = crossing_over(population);
